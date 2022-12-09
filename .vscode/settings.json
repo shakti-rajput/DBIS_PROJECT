@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "list": "cpp",
+        "vector": "cpp",
+        "xstring": "cpp",
+        "unordered_map": "cpp",
+        "sstream": "cpp",
+        "utility": "cpp"
+    }
+}
