@@ -82,10 +82,10 @@ void rightCycleLeftJoin_pair_CallByReference(
 }
 
 void callPairImplementation_CallByReference(
-    list<pair<string, string>> &followTabel,
-    list<pair<string, string>> &friendOfTabel,
-    list<pair<string, string>> &likesTabel,
-    list<pair<string, string>> &reviewTabel) {
+    list<pair<string, string>> followTabel,
+    list<pair<string, string>> friendOfTabel,
+    list<pair<string, string>> likesTabel,
+    list<pair<string, string>> reviewTabel) {
 
   unordered_map<string, list<pair<string, string>>> followTabelHash;
   unordered_map<string, list<pair<string, string>>> friendOfTabelHash;
@@ -127,4 +127,5 @@ void callPairImplementation_CallByReference(
   cout << "follow Table " << followTabel.size() << endl;
 
   std::cout << float(clock() - begin_time2) / CLOCKS_PER_SEC << endl;
+  std::cout << float(clock() - begin_time) / CLOCKS_PER_SEC << endl;
 }

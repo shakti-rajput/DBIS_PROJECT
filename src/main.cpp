@@ -12,6 +12,7 @@
 #include "basicImplementation.h"
 #include "helper.h"
 #include "modifiedAlgorithm.h"
+#include "modifiedAlgorithmInt.h"
 #include "pairVersion.h"
 #include "pairVersionCallByRefrence.h"
 
@@ -22,8 +23,7 @@ int main() {
   cin.tie(NULL);
   cout.tie(NULL);
   int count = 0;
-  string FILENAME = "100k.txt";
-  FILENAME = "watdiv10M.txt";
+  string FILENAME = "watdiv10M.txt";
   ifstream file(FILENAME);
 
   unordered_map<string, list<pair<string, string>>>
@@ -44,7 +44,6 @@ int main() {
       // tablesChecking.
       format10M(line, tabels);
       format10M_(line, tabelsChecking);
-
       // count++;
       // if (count == 5)
       // {
@@ -53,15 +52,6 @@ int main() {
     }
     file.close();
   }
-  // cout << tabels.size() << endl;
-  // cout << "Here-" << endl;
-  // for (auto x : tabels) {
-  //   cout << x.first << endl;
-  //   count++;
-  //   if (count == 5) {
-  //     break;
-  //   }
-  // }
 
   // for (auto x : followTabel_)
   // {
@@ -82,32 +72,75 @@ int main() {
   list<list<string>> friendOfTabel = tabels["friendOf"];
   list<list<string>> likesTabel = tabels["likes"];
   list<list<string>> reviewTabel = tabels["hasReview"];
+  // list<list<string>> reviewer = tabels["reviewer"];
+  //  list<list<int>> followTabel = tabels["follows"];
+  // // Tables are stored seperately now.
+  // list<list<int>> friendOfTabel = tabels["friendOf"];
+  // list<list<int>> likesTabel = tabels["likes"];
+  // list<list<int>> reviewTabel = tabels["hasReview"];
+  // // list<list<string>> reviewer = tabels["reviewer"];
 
-  list<pair<string, string>> followTabel_ = tabelsChecking["follows"];
+  list<pair<string, string>> followTabel_S = tabelsChecking["follows"];
   // Tables are stored seperately now.
-  list<pair<string, string>> friendOfTabel_ = tabelsChecking["friendOf"];
-  list<pair<string, string>> likesTabel_ = tabelsChecking["likes"];
-  list<pair<string, string>> reviewTabel_ = tabelsChecking["hasReview"];
+  list<pair<string, string>> friendOfTabel_S = tabelsChecking["friendOf"];
+  list<pair<string, string>> likesTabel_S = tabelsChecking["likes"];
+  list<pair<string, string>> reviewTabel_S = tabelsChecking["hasReview"];
+  list<pair<string, string>> reviewerTabel_S = tabelsChecking["reviewer"];
+  count = 0;
+  unordered_map<string, int> store;
+  list<pair<int, int>> followTabel_;
+  list<pair<int, int>> friendOfTabel_;
+  list<pair<int, int>> likesTabel_;
+  list<pair<int, int>> reviewTabel_;
+  list<pair<int, int>> reviewerTabel_;
+
+  preprocessingStringtoInteger(followTabel_S, friendOfTabel_S, likesTabel_S,
+                               reviewTabel_S, reviewerTabel_S, store,
+                               followTabel_, friendOfTabel_, likesTabel_,
+                               reviewTabel_, reviewerTabel_);
 
   // Custom key of string can be made.. TO know wether we have deleted the key
   // or not.
-  unordered_map<string, list<pair<string, string>>> followTabelHash_;
-  unordered_map<string, list<pair<string, string>>> friendOfTabelHash_;
-  unordered_map<string, list<pair<string, string>>> likesTabelHash_;
-  unordered_map<string, list<pair<string, string>>> reviewTabelHash_;
-  callBasicImplementation(followTabel, friendOfTabel, likesTabel, reviewTabel);
-  cout << "=============================================================="
+  // callBasicImplementation(followTabel, friendOfTabel, likesTabel, reviewTabel);
+  // cout << "callBasicImplementation "
+  //         "=============================================================="
+  //      << endl;
+  // callPairImplementation(followTabel_S, friendOfTabel_S, likesTabel_S,
+  //                        reviewTabel_S);
+  // cout << " callPairImplementation "
+  //         "=============================================================="
+  //      << endl;
+  // callPairImplementation_CallByReference(followTabel_S, friendOfTabel_S,
+  //                                        likesTabel_S, reviewTabel_S);
+  // cout << "callPairImplementation_CallByReference "
+  //         "=============================================================="
+  //      << endl;
+  callPairImplementation_CallByReference_Modified(
+      followTabel_S, friendOfTabel_S, likesTabel_S, reviewTabel_S);
+  cout << "callPairImplementation_CallByReference_Modified "
+          "=============================================================="
        << endl;
-  callPairImplementation(followTabel_, friendOfTabel_, likesTabel_,
-                         reviewTabel_);
-  cout << "=============================================================="
+
+  callPairImplementation_CallByReference_Modified(
+      followTabel_S, likesTabel_S, reviewTabel_S, reviewerTabel_S);
+  cout << "callPairImplementation_CallByReference_Modified Manik "
+          "Query=============================================================="
        << endl;
-  callPairImplementation_CallByReference(followTabel_, friendOfTabel_,
-                                         likesTabel_, reviewTabel_);
-  cout << "=============================================================="
+
+  callPairImplementation_CallByReference_ModifiedInt(
+      followTabel_, likesTabel_, reviewTabel_, reviewerTabel_);
+  cout << "callPairImplementation_CallByReference_ModifiedInt Manik "
+          "Query=============================================================="
        << endl;
-  callPairImplementation_CallByReference_Modified(followTabel_, friendOfTabel_,
-                                                  likesTabel_, reviewTabel_);
+
+  callPairImplementation_CallByReference_ModifiedInt(
+      followTabel_, friendOfTabel_, likesTabel_, reviewTabel_);
+  cout << "callPairImplementation_CallByReference_ModifiedInt "
+          "=============================================================="
+       << endl;
+
+  // callPairImplementation_CallByReference_Modified(followTabel_, likesTabel_,
+  // reviewTabel_, reviewerTabel_);
 }
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
