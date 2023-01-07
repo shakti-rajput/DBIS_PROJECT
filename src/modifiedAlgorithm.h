@@ -24,7 +24,7 @@ void rightCycleLeftJoin_pair_CallByReference_Modified(
     unordered_map<string, list<pair<string, string>>> &rightHashTable);
 
 void callPairImplementation_CallByReference_Modified(
-    list<pair<string, string>> &followTabel,
-    list<pair<string, string>> &friendOfTabel,
-    list<pair<string, string>> &likesTabel,
-    list<pair<string, string>> &reviewTabel);
+    list<pair<string, string>> followTabel,
+    list<pair<string, string>> friendOfTabel,
+    list<pair<string, string>> likesTabel,
+    list<pair<string, string>> reviewTabel);

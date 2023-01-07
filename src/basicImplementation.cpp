@@ -116,4 +116,5 @@ void callBasicImplementation(list<list<string>> followTabel,
   cout << "follow Table " << followTabel.size() << endl;
 
   std::cout << float(clock() - begin_time2) / CLOCKS_PER_SEC << endl;
+  std::cout << float(clock() - begin_time) / CLOCKS_PER_SEC << endl;
 }

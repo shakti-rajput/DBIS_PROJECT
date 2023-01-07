@@ -8,10 +8,10 @@
 
 using namespace std;
 
-void makeHashFunction_pair_CallByReference_Modified(
-    list<pair<string, string>> &tables, int index,
-    unordered_map<string, list<pair<string, string>>> &hashTable) {
-  
+void makeHashFunction_pair_CallByReference_ModifiedInt(
+    list<pair<int, int>> &tables, int index,
+    unordered_map<int, list<pair<int, int>>> &hashTable) {
+
   const clock_t begin_time = clock();
   int count = 0;
 
@@ -25,21 +25,22 @@ void makeHashFunction_pair_CallByReference_Modified(
       hashTable[x.first].push_back(x);
     }
   }
-  std::cout << "Hash Table making time  --> "
+  std::cout << "Hash Table making time --> "
             << float(clock() - begin_time) / CLOCKS_PER_SEC << endl;
 }
 
-void leftCycleLeftJoin_pair_CallByReference_Modified(
-    list<pair<string, string>> leftTable, int leftIndex,
-    list<pair<string, string>> &rightTable, int rightIndex,
-    unordered_map<string, list<pair<string, string>>> &hashTable) {
+unordered_map<int, list<pair<int, int>>>
+leftCycleLeftJoin_pair_CallByReference_ModifiedInt(
+    list<pair<int, int>> leftTable, int leftIndex,
+    list<pair<int, int>> &rightTable, int rightIndex,
+    unordered_map<int, list<pair<int, int>>> hashTable) {
 
-  makeHashFunction_pair_CallByReference_Modified(leftTable, leftIndex,
-                                                 hashTable);
+  makeHashFunction_pair_CallByReference_ModifiedInt(leftTable, leftIndex,
+                                                    hashTable);
   // Can be avoided.
-  unordered_map<string, list<pair<string, string>>> hashTemp;
+  unordered_map<int, list<pair<int, int>>> hashTemp;
 
-  string tempKey;
+  int tempKey;
   if (rightIndex) {
     for (auto x : rightTable) {
       tempKey = x.second;
@@ -57,22 +58,22 @@ void leftCycleLeftJoin_pair_CallByReference_Modified(
       }
     }
   }
-  hashTable = hashTemp;
+  return hashTemp;
 }
 
-void leftCycleLeftJoin_pair_CallByReference_Modified_hash(
-    list<pair<string, string>> leftTable, int leftIndex,
-    unordered_map<string, list<pair<string, string>>> rightTabelHash,
-    int rightIndex,
-    unordered_map<string, list<pair<string, string>>> &hashTable) {
+unordered_map<int, list<pair<int, int>>>
+leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
+    list<pair<int, int>> leftTable, int leftIndex,
+    unordered_map<int, list<pair<int, int>>> rightTabelHash, int rightIndex,
+    unordered_map<int, list<pair<int, int>>> hashTable) {
 
-  makeHashFunction_pair_CallByReference_Modified(leftTable, leftIndex,
-                                                 hashTable);
+  makeHashFunction_pair_CallByReference_ModifiedInt(leftTable, leftIndex,
+                                                    hashTable);
 
   // Can be avoided.
-  unordered_map<string, list<pair<string, string>>> hashTemp;
+  unordered_map<int, list<pair<int, int>>> hashTemp;
 
-  string tempKey;
+  int tempKey;
 
   if (rightIndex) {
     for (auto x : rightTabelHash) {
@@ -95,17 +96,15 @@ void leftCycleLeftJoin_pair_CallByReference_Modified_hash(
       }
     }
   }
-  hashTable = hashTemp;
+  return hashTemp;
 }
 
-void rightCycleLeftJoin_pair_CallByReference_Modified(
-    unordered_map<string, list<pair<string, string>>> &leftHashTable,
-    list<pair<string, string>> &rightTable, int rightIndex,
-    unordered_map<string, list<pair<string, string>>> &rightHashTable) {
-  list<pair<string, string>> temp;
-  rightTable = temp;
-  string tempKey, tempKey2;
-  unordered_map<string, list<pair<string, string>>> rightHashTableTemp;
+list<pair<int, int>> rightCycleLeftJoin_pair_CallByReference_ModifiedInt(
+    unordered_map<int, list<pair<int, int>>> leftHashTable, int rightIndex,
+    unordered_map<int, list<pair<int, int>>> &rightHashTable) {
+  list<pair<int, int>> rightTable;
+  int tempKey, tempKey2;
+  unordered_map<int, list<pair<int, int>>> rightHashTableTemp;
 
   if (rightIndex) {
     for (auto x : rightHashTable) {
@@ -133,20 +132,18 @@ void rightCycleLeftJoin_pair_CallByReference_Modified(
     }
   }
   rightHashTable = rightHashTableTemp;
+  return rightTable;
 }
 
-void rightCycleLeftJoin_pair_CallByReference_Modified_Table(
-    unordered_map<string, list<pair<string, string>>> &leftHashTable,
-    list<pair<string, string>> &rightTable, int rightIndex,
-    unordered_map<string, list<pair<string, string>>> &rightHashTable) {
+void rightCycleLeftJoin_pair_CallByReference_ModifiedInt_Table(
+    unordered_map<int, list<pair<int, int>>> &leftHashTable,
+    list<pair<int, int>> &rightTable, int rightIndex) {
 
-  string tempKey, tempKey2;
-  unordered_map<string, list<pair<string, string>>> rightHashTableTemp;
+  int tempKey;
 
   if (rightIndex) {
     for (auto x = rightTable.begin(); x != rightTable.end(); x++) {
       tempKey = (*x).second;
-      tempKey2 = (*x).first;
       if ((leftHashTable.find(tempKey) == leftHashTable.end())) {
         x = rightTable.erase(x);
         x--;
@@ -155,7 +152,6 @@ void rightCycleLeftJoin_pair_CallByReference_Modified_Table(
   } else {
     for (auto x = rightTable.begin(); x != rightTable.end(); x++) {
       tempKey = (*x).first;
-      tempKey2 = (*x).second;
       if ((leftHashTable.find(tempKey) == leftHashTable.end())) {
         x = rightTable.erase(x);
         x--;
@@ -164,29 +160,27 @@ void rightCycleLeftJoin_pair_CallByReference_Modified_Table(
   }
 }
 
-void callPairImplementation_CallByReference_Modified(
-    list<pair<string, string>> followTabel,
-    list<pair<string, string>> friendOfTabel,
-    list<pair<string, string>> likesTabel,
-    list<pair<string, string>> reviewTabel) {
+void callPairImplementation_CallByReference_ModifiedInt(
+    list<pair<int, int>> followTabel, list<pair<int, int>> friendOfTabel,
+    list<pair<int, int>> likesTabel, list<pair<int, int>> reviewTabel) {
 
-  unordered_map<string, list<pair<string, string>>> followTabelHash;
-  unordered_map<string, list<pair<string, string>>> friendOfTabelHash;
-  unordered_map<string, list<pair<string, string>>> likesTabelHash;
-  unordered_map<string, list<pair<string, string>>> reviewTabelHash;
+  unordered_map<int, list<pair<int, int>>> followTabelHash;
+  unordered_map<int, list<pair<int, int>>> friendOfTabelHash;
+  unordered_map<int, list<pair<int, int>>> likesTabelHash;
+  unordered_map<int, list<pair<int, int>>> reviewTabelHash;
 
   const clock_t begin_time = clock();
-  leftCycleLeftJoin_pair_CallByReference_Modified(friendOfTabel, 0, followTabel,
-                                                  1, friendOfTabelHash);
+  friendOfTabelHash = leftCycleLeftJoin_pair_CallByReference_ModifiedInt(
+      friendOfTabel, 0, followTabel, 1, friendOfTabelHash);
   cout << "friendOfTabelHash " << friendOfTabelHash.size() << endl;
   cout << "friendOfTabel " << friendOfTabel.size() << endl;
   cout << "likesTabel " << likesTabel.size() << endl;
-  leftCycleLeftJoin_pair_CallByReference_Modified_hash(
+  likesTabelHash = leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
       likesTabel, 0, friendOfTabelHash, 1, likesTabelHash);
   cout << "likesTabel " << likesTabel.size() << endl;
   cout << "likesTabelHash " << likesTabelHash.size() << endl;
   cout << "reviewTabel " << reviewTabel.size() << endl;
-  leftCycleLeftJoin_pair_CallByReference_Modified_hash(
+  reviewTabelHash = leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
       reviewTabel, 0, likesTabelHash, 1, reviewTabelHash);
   cout << "reviewTabel " << reviewTabel.size() << endl;
   cout << "reviewTabelHash " << reviewTabelHash.size() << endl;
@@ -194,19 +188,19 @@ void callPairImplementation_CallByReference_Modified(
   std::cout << float(clock() - begin_time) / CLOCKS_PER_SEC << endl;
 
   const clock_t begin_time2 = clock();
-  rightCycleLeftJoin_pair_CallByReference_Modified(reviewTabelHash, likesTabel,
-                                                   1, likesTabelHash);
+  likesTabel = rightCycleLeftJoin_pair_CallByReference_ModifiedInt(
+      reviewTabelHash, 1, likesTabelHash);
   cout << "likesTabel " << likesTabel.size() << endl;
   cout << "likesTabelHash " << likesTabelHash.size() << endl;
   cout << "friendOfTabelHash  " << friendOfTabelHash.size() << endl;
 
-  rightCycleLeftJoin_pair_CallByReference_Modified(
-      likesTabelHash, friendOfTabel, 1, friendOfTabelHash);
+  friendOfTabel = rightCycleLeftJoin_pair_CallByReference_ModifiedInt(
+      likesTabelHash, 1, friendOfTabelHash);
   cout << "friendOfTabel " << friendOfTabel.size() << endl;
   cout << "friendOfTabelHash " << friendOfTabelHash.size() << endl;
 
-  rightCycleLeftJoin_pair_CallByReference_Modified_Table(
-      friendOfTabelHash, followTabel, 1, followTabelHash);
+  rightCycleLeftJoin_pair_CallByReference_ModifiedInt_Table(friendOfTabelHash,
+                                                            followTabel, 1);
   cout << "follow Table " << followTabel.size() << endl;
 
   std::cout << float(clock() - begin_time2) / CLOCKS_PER_SEC << endl;
