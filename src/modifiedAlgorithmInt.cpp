@@ -227,12 +227,16 @@ void callPairImplementation_CallByReference_ModifiedInt(
   unordered_map<int, list<pair<int, int>>> reviewTabelHash;
 
   const clock_t begin_time = clock();
+  // This will be called for 2
+  // This will be called only once.
   friendOfTabelHash = leftCycleLeftJoin_pair_CallByReference_ModifiedInt(
       friendOfTabel, 0, followTabel, 1, friendOfTabelHash);
   cout << "friendOfTabelHash " << friendOfTabelHash.size() << endl;
   cout << "friendOfTabel " << friendOfTabel.size() << endl;
   cout << "likesTabel " << likesTabel.size() << endl;
   bool flag = true;
+  // This will be called for 3 Tables
+  // This will be called for 2 time for 4 Tables. 3 times for 5 Tables.
   likesTabelHash = leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
       likesTabel, 0, friendOfTabelHash, 1, likesTabelHash, flag);
   flag = true;
@@ -250,12 +254,16 @@ void callPairImplementation_CallByReference_ModifiedInt(
   cout << "likesTabel " << likesTabel.size() << endl;
   cout << "likesTabelHash " << likesTabelHash.size() << endl;
   cout << "friendOfTabelHash  " << friendOfTabelHash.size() << endl;
-
+// This will be called for 4 table once.
+// 5 Tables --> 2.
+// A B C D E
+// B,C C,D 
   friendOfTabel = rightCycleLeftJoin_pair_CallByReference_ModifiedInt(
       likesTabelHash, 1, friendOfTabelHash);
   cout << "friendOfTabel " << friendOfTabel.size() << endl;
   cout << "friendOfTabelHash " << friendOfTabelHash.size() << endl;
-
+// This to be called for 2
+// This will be called only once.
   rightCycleLeftJoin_pair_CallByReference_ModifiedInt_Table(friendOfTabelHash,
                                                             followTabel, 1);
   cout << "follow Table " << followTabel.size() << endl;
