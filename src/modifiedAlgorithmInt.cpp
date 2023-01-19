@@ -79,8 +79,9 @@ leftCycleLeftJoin_pair_CallByReference_ModifiedInt(
 unordered_map<int, list<pair<int, int>>>
 leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
     list<pair<int, int>> leftTable, int leftIndex,
+    unordered_map<int, list<pair<int, int>>> hashTable,
     unordered_map<int, list<pair<int, int>>> &rightTabelHash, int rightIndex,
-    unordered_map<int, list<pair<int, int>>> hashTable, bool deleteflag) {
+    bool deleteflag) {
 
   makeHashFunction_pair_CallByReference_ModifiedInt(leftTable, leftIndex,
                                                     hashTable);
@@ -143,8 +144,8 @@ leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
 }
 
 list<pair<int, int>> rightCycleLeftJoin_pair_CallByReference_ModifiedInt(
-    unordered_map<int, list<pair<int, int>>> leftHashTable, int rightIndex,
-    unordered_map<int, list<pair<int, int>>> &rightHashTable) {
+    int rightIndex, unordered_map<int, list<pair<int, int>>> &rightHashTable,
+    unordered_map<int, list<pair<int, int>>> leftHashTable) {
   list<pair<int, int>> rightTable;
   int flag = 0;
   unordered_map<int, list<pair<int, int>>> rightHashTableTemp;
@@ -220,54 +221,93 @@ void rightCycleLeftJoin_pair_CallByReference_ModifiedInt_Table(
 void callPairImplementation_CallByReference_ModifiedInt(
     list<pair<int, int>> followTabel, list<pair<int, int>> friendOfTabel,
     list<pair<int, int>> likesTabel, list<pair<int, int>> reviewTabel) {
-
+  const clock_t begin_time = clock();
   unordered_map<int, list<pair<int, int>>> followTabelHash;
   unordered_map<int, list<pair<int, int>>> friendOfTabelHash;
   unordered_map<int, list<pair<int, int>>> likesTabelHash;
   unordered_map<int, list<pair<int, int>>> reviewTabelHash;
 
-  const clock_t begin_time = clock();
   // This will be called for 2
   // This will be called only once.
   friendOfTabelHash = leftCycleLeftJoin_pair_CallByReference_ModifiedInt(
       friendOfTabel, 0, followTabel, 1, friendOfTabelHash);
-  cout << "friendOfTabelHash " << friendOfTabelHash.size() << endl;
-  cout << "friendOfTabel " << friendOfTabel.size() << endl;
-  cout << "likesTabel " << likesTabel.size() << endl;
+  // cout << "friendOfTabelHash " << friendOfTabelHash.size() << endl;
+  // cout << "friendOfTabel " << friendOfTabel.size() << endl;
+  // cout << "likesTabel " << likesTabel.size() << endl;
   bool flag = true;
   // This will be called for 3 Tables
   // This will be called for 2 time for 4 Tables. 3 times for 5 Tables.
   likesTabelHash = leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
-      likesTabel, 0, friendOfTabelHash, 1, likesTabelHash, flag);
+      likesTabel, 0, likesTabelHash, friendOfTabelHash, 1, flag);
   flag = true;
-  cout << "likesTabel " << likesTabel.size() << endl;
-  cout << "likesTabelHash " << likesTabelHash.size() << endl;
-  cout << "reviewTabel " << reviewTabel.size() << endl;
+  // cout << "likesTabel " << likesTabel.size() << endl;
+  // cout << "likesTabelHash " << likesTabelHash.size() << endl;
+  // cout << "reviewTabel " << reviewTabel.size() << endl;
   reviewTabelHash = leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
-      reviewTabel, 0, likesTabelHash, 1, reviewTabelHash, flag);
-  cout << "reviewTabel " << reviewTabel.size() << endl;
-  cout << "reviewTabelHash " << reviewTabelHash.size() << endl;
-  cout << "----------------------------------------------" << endl;
-  std::cout << float(clock() - begin_time) / CLOCKS_PER_SEC << endl;
+      reviewTabel, 0, reviewTabelHash, likesTabelHash, 1, flag);
+  // cout << "reviewTabel " << reviewTabel.size() << endl;
+  // cout << "reviewTabelHash " << reviewTabelHash.size() << endl;
+  // cout << "----------------------------------------------" << endl;
+  // std::cout << float(clock() - begin_time) / CLOCKS_PER_SEC << endl;
 
-  const clock_t begin_time2 = clock();
-  cout << "likesTabel " << likesTabel.size() << endl;
-  cout << "likesTabelHash " << likesTabelHash.size() << endl;
-  cout << "friendOfTabelHash  " << friendOfTabelHash.size() << endl;
-// This will be called for 4 table once.
-// 5 Tables --> 2.
-// A B C D E
-// B,C C,D 
+  // const clock_t begin_time2 = clock();
+  // cout << "likesTabel " << likesTabel.size() << endl;
+  // cout << "likesTabelHash " << likesTabelHash.size() << endl;
+  // cout << "friendOfTabelHash  " << friendOfTabelHash.size() << endl;
+  // This will be called for 4 table once.
+  // 5 Tables --> 2.
+  // A B C D E
+  // B,C C,D
   friendOfTabel = rightCycleLeftJoin_pair_CallByReference_ModifiedInt(
-      likesTabelHash, 1, friendOfTabelHash);
-  cout << "friendOfTabel " << friendOfTabel.size() << endl;
-  cout << "friendOfTabelHash " << friendOfTabelHash.size() << endl;
-// This to be called for 2
-// This will be called only once.
+      1, friendOfTabelHash, likesTabelHash);
+  // cout << "friendOfTabel " << friendOfTabel.size() << endl;
+  // cout << "friendOfTabelHash " << friendOfTabelHash.size() << endl;
+  // This to be called for 2
+  // This will be called only once.
   rightCycleLeftJoin_pair_CallByReference_ModifiedInt_Table(friendOfTabelHash,
                                                             followTabel, 1);
   cout << "follow Table " << followTabel.size() << endl;
 
-  std::cout << float(clock() - begin_time2) / CLOCKS_PER_SEC << endl;
+  std::cout << float(clock() - begin_time) / CLOCKS_PER_SEC << endl;
+}
+
+void callPairImplementation_CallByReference_ModifiedIntAuto(
+    list<list<pair<int, int>>> tables) {
+  const clock_t begin_time = clock();
+  int counter = 0;
+
+  list<unordered_map<int, list<pair<int, int>>>> hashs;
+  unordered_map<int, list<pair<int, int>>> empty;
+  for (int i = 0; i < tables.size() - 1; i++)
+    hashs.push_back(empty);
+
+  auto hash = hashs.begin();
+  auto table = tables.begin();
+
+  if (tables.size() >= 2)
+    *hash = leftCycleLeftJoin_pair_CallByReference_ModifiedInt(
+        *(++table), 0, *table, 1, *hash);
+
+  bool flag = true;
+  if (tables.size() >= 3) {
+    for (table++; table != tables.end(); table++) {
+      *hash = leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
+          *table, 0, *(++hash), *hash, 1, flag);
+    }
+  }
+  table--;
+  table--;
+  table--;
+  hash--;
+  if (tables.size() >= 4) {
+    for (int i = 3; i < tables.size(); i++) {
+      *table = rightCycleLeftJoin_pair_CallByReference_ModifiedInt(1, *(--hash),
+                                                                   *hash);
+    }
+  }
+  if (tables.size() >= 3)
+    rightCycleLeftJoin_pair_CallByReference_ModifiedInt_Table(*hash, *(--table),
+                                                              1);
+  cout << (*table).size() << endl;
   std::cout << float(clock() - begin_time) / CLOCKS_PER_SEC << endl;
 }

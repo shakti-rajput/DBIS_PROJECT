@@ -41,31 +41,14 @@ int main() {
 
       // format100k(line, tabels);          // Entries getting stored in tables.
       // format100k_(line, tabelsChecking); // Entries getting stored in
-      // tablesChecking.
+
       format10M(line, tabels);
       format10M_(line, tabelsChecking);
-      // count++;
-      // if (count == 5)
-      // {
-      //     break;
-      // }
+
     }
     file.close();
   }
 
-  // for (auto x : followTabel_)
-  // {
-  //     cout << x.flag << endl;
-
-  //         cout << x.entries[0]<< " ";
-
-  //     cout << endl;
-  //     count++;
-  //     if (count == 5)
-  //     {
-  //         break;
-  //     }
-  // }
 
   list<list<string>> followTabel = tabels["follows"];
   // Tables are stored seperately now.
@@ -93,16 +76,17 @@ int main() {
   list<pair<int, int>> likesTabel_;
   list<pair<int, int>> reviewTabel_;
   list<pair<int, int>> reviewerTabel_;
-
+  const clock_t begin_time_preprocessing = clock();
   preprocessingStringtoInteger(followTabel_S, friendOfTabel_S, likesTabel_S,
                                reviewTabel_S, reviewerTabel_S, store,
                                followTabel_, friendOfTabel_, likesTabel_,
                                reviewTabel_, reviewerTabel_);
+  std::cout <<"Preprocessing Time --> "<< float(clock() - begin_time_preprocessing) / CLOCKS_PER_SEC << endl;
 
   // Custom key of string can be made.. TO know wether we have deleted the key
   // or not.
-  // callBasicImplementation(followTabel, friendOfTabel, likesTabel, reviewTabel);
-  // cout << "callBasicImplementation "
+  // callBasicImplementation(followTabel, friendOfTabel, likesTabel,
+  // reviewTabel); cout << "callBasicImplementation "
   //         "=============================================================="
   //      << endl;
   // callPairImplementation(followTabel_S, friendOfTabel_S, likesTabel_S,
@@ -115,42 +99,33 @@ int main() {
   // cout << "callPairImplementation_CallByReference "
   //         "=============================================================="
   //      << endl;
-  callPairImplementation_CallByReference_Modified(
-      followTabel_S, friendOfTabel_S, likesTabel_S, reviewTabel_S);
-  cout << "callPairImplementation_CallByReference_Modified "
-          "=============================================================="
-       << endl;
+  // callPairImplementation_CallByReference_Modified(
+  //     followTabel_S, friendOfTabel_S, likesTabel_S, reviewTabel_S);
+  // cout << "callPairImplementation_CallByReference_Modified "
+  //         "=============================================================="
+  //      << endl;
 
-  callPairImplementation_CallByReference_Modified(
-      followTabel_S, likesTabel_S, reviewTabel_S, reviewerTabel_S);
-  cout << "callPairImplementation_CallByReference_Modified Manik "
-          "Query=============================================================="
-       << endl;
+  // callPairImplementation_CallByReference_Modified(
+  //     followTabel_S, likesTabel_S, reviewTabel_S, reviewerTabel_S);
+  // cout << "callPairImplementation_CallByReference_Modified Manik "
+  //         "Query=============================================================="
+  //      << endl;
 
-  callPairImplementation_CallByReference_ModifiedInt(
-      followTabel_, likesTabel_, reviewTabel_, reviewerTabel_);
-  cout << "callPairImplementation_CallByReference_ModifiedInt Manik "
-          "Query=============================================================="
-       << endl;
-
+  // callPairImplementation_CallByReference_ModifiedInt(
+  //     followTabel_, likesTabel_, reviewTabel_, reviewerTabel_);
+  // cout << "callPairImplementation_CallByReference_ModifiedInt Manik "
+  //         "Query=============================================================="
+  //      << endl;
+  // const clock_t begin_time = clock();
   callPairImplementation_CallByReference_ModifiedInt(
       followTabel_, friendOfTabel_, likesTabel_, reviewTabel_);
   cout << "callPairImplementation_CallByReference_ModifiedInt "
           "=============================================================="
        << endl;
-
-  // callPairImplementation_CallByReference_Modified(followTabel_, likesTabel_,
-  // reviewTabel_, reviewerTabel_);
+  list<list<pair<int, int>>> tables;
+  tables.push_back(followTabel_);
+  tables.push_back(friendOfTabel_);
+  tables.push_back(likesTabel_);
+  tables.push_back(reviewTabel_);
+  callPairImplementation_CallByReference_ModifiedIntAuto(tables);
 }
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started:
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add
-//   Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project
-//   and select the .sln file
