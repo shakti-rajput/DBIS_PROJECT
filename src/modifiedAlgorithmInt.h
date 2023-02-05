@@ -9,9 +9,5 @@
 
 using namespace std;
 
-void callPairImplementation_CallByReference_ModifiedInt(
-    list<pair<int, int>> followTabel, list<pair<int, int>> friendOfTabel,
-    list<pair<int, int>> likesTabel, list<pair<int, int>> reviewTabel);
-
 void callPairImplementation_CallByReference_ModifiedIntAuto(
     list<list<pair<int, int>>> tables);

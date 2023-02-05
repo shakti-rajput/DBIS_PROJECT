@@ -22,7 +22,6 @@ int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
   cout.tie(NULL);
-  int count = 0;
   string FILENAME = "watdiv10M.txt";
   ifstream file(FILENAME);
 
@@ -44,11 +43,9 @@ int main() {
 
       format10M(line, tabels);
       format10M_(line, tabelsChecking);
-
     }
     file.close();
   }
-
 
   list<list<string>> followTabel = tabels["follows"];
   // Tables are stored seperately now.
@@ -69,7 +66,6 @@ int main() {
   list<pair<string, string>> likesTabel_S = tabelsChecking["likes"];
   list<pair<string, string>> reviewTabel_S = tabelsChecking["hasReview"];
   list<pair<string, string>> reviewerTabel_S = tabelsChecking["reviewer"];
-  count = 0;
   unordered_map<string, int> store;
   list<pair<int, int>> followTabel_;
   list<pair<int, int>> friendOfTabel_;
@@ -81,44 +77,47 @@ int main() {
                                reviewTabel_S, reviewerTabel_S, store,
                                followTabel_, friendOfTabel_, likesTabel_,
                                reviewTabel_, reviewerTabel_);
-  std::cout <<"Preprocessing Time --> "<< float(clock() - begin_time_preprocessing) / CLOCKS_PER_SEC << endl;
+  std::cout << "Preprocessing Time --> "
+            << float(clock() - begin_time_preprocessing) / CLOCKS_PER_SEC
+            << endl;
 
   // Custom key of string can be made.. TO know wether we have deleted the key
   // or not.
-  // callBasicImplementation(followTabel, friendOfTabel, likesTabel,
-  // reviewTabel); cout << "callBasicImplementation "
-  //         "=============================================================="
-  //      << endl;
-  // callPairImplementation(followTabel_S, friendOfTabel_S, likesTabel_S,
-  //                        reviewTabel_S);
-  // cout << " callPairImplementation "
-  //         "=============================================================="
-  //      << endl;
-  // callPairImplementation_CallByReference(followTabel_S, friendOfTabel_S,
-  //                                        likesTabel_S, reviewTabel_S);
-  // cout << "callPairImplementation_CallByReference "
-  //         "=============================================================="
-  //      << endl;
-  // callPairImplementation_CallByReference_Modified(
-  //     followTabel_S, friendOfTabel_S, likesTabel_S, reviewTabel_S);
-  // cout << "callPairImplementation_CallByReference_Modified "
-  //         "=============================================================="
-  //      << endl;
+  callBasicImplementation(followTabel, friendOfTabel, likesTabel, reviewTabel);
+  cout << "callBasicImplementation "
+          "=============================================================="
+       << endl;
+  callPairImplementation(followTabel_S, friendOfTabel_S, likesTabel_S,
+                         reviewTabel_S);
+  cout << " callPairImplementation "
+          "=============================================================="
+       << endl;
+  callPairImplementation_CallByReference(followTabel_S, friendOfTabel_S,
+                                         likesTabel_S, reviewTabel_S);
+  cout << "callPairImplementation_CallByReference "
+          "=============================================================="
+       << endl;
+  callPairImplementation_CallByReference_Modified(
+      followTabel_S, friendOfTabel_S, likesTabel_S, reviewTabel_S);
+  cout << "callPairImplementation_CallByReference_Modified "
+          "=============================================================="
+       << endl;
 
-  // callPairImplementation_CallByReference_Modified(
-  //     followTabel_S, likesTabel_S, reviewTabel_S, reviewerTabel_S);
-  // cout << "callPairImplementation_CallByReference_Modified Manik "
-  //         "Query=============================================================="
-  //      << endl;
-
-  // callPairImplementation_CallByReference_ModifiedInt(
-  //     followTabel_, likesTabel_, reviewTabel_, reviewerTabel_);
-  // cout << "callPairImplementation_CallByReference_ModifiedInt Manik "
-  //         "Query=============================================================="
-  //      << endl;
+  callPairImplementation_CallByReference_Modified(
+      followTabel_S, likesTabel_S, reviewTabel_S, reviewerTabel_S);
+  cout << "callPairImplementation_CallByReference_Modified Manik "
+          "Query=============================================================="
+       << endl;
+  list<list<pair<int, int>>> tables1;
+  tables1.push_back(followTabel_);
+  tables1.push_back(likesTabel_);
+  tables1.push_back(reviewTabel_);
+  tables1.push_back(reviewerTabel_);
+  callPairImplementation_CallByReference_ModifiedIntAuto(tables1);
+  cout << "callPairImplementation_CallByReference_ModifiedInt Manik "
+          "Query=============================================================="
+       << endl;
   // const clock_t begin_time = clock();
-  callPairImplementation_CallByReference_ModifiedInt(
-      followTabel_, friendOfTabel_, likesTabel_, reviewTabel_);
   cout << "callPairImplementation_CallByReference_ModifiedInt "
           "=============================================================="
        << endl;
