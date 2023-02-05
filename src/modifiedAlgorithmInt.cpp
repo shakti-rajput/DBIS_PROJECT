@@ -13,7 +13,6 @@ void makeHashFunction_pair_CallByReference_ModifiedInt(
     unordered_map<int, list<pair<int, int>>> &hashTable) {
 
   const clock_t begin_time = clock();
-  int count = 0;
 
   if (index) {
     for (auto x : tables) {
@@ -29,36 +28,21 @@ void makeHashFunction_pair_CallByReference_ModifiedInt(
             << float(clock() - begin_time) / CLOCKS_PER_SEC << endl;
 }
 
-unordered_map<int, list<pair<int, int>>>
-leftCycleLeftJoin_pair_CallByReference_ModifiedInt(
+void leftCycleLeftJoin_pair_CallByReference_ModifiedInt(
     list<pair<int, int>> leftTable, int leftIndex,
     list<pair<int, int>> &rightTable, int rightIndex,
-    unordered_map<int, list<pair<int, int>>> hashTable) {
-
+    unordered_map<int, list<pair<int, int>>> &hashTemp) {
+  const clock_t begin_time = clock();
+  unordered_map<int, list<pair<int, int>>> hashTable;
   makeHashFunction_pair_CallByReference_ModifiedInt(leftTable, leftIndex,
                                                     hashTable);
-  unordered_map<int, list<pair<int, int>>> hashTemp;
 
   int tempKey;
   if (rightIndex) {
-    // for (list<pair<int, int>>::iterator it = rightTable.begin();
-    //      it != rightTable.end(); it++) {
-    //   tempKey = it->second;
-    //   if (hashTable.find(tempKey) != hashTable.end()) {
-    //     if (hashTemp.find(tempKey) == hashTemp.end()) {
-    //       hashTemp[tempKey] = hashTable[tempKey];
-    //       hashTable.erase(tempKey);
-    //     }
-    //   } else if (hashTemp.find(tempKey) == hashTemp.end()) {
-    //     it = rightTable.erase(it);
-    //     it--;
-    //   }
-    // }
     for (auto x : rightTable) {
       tempKey = x.second;
       if (hashTable.find(tempKey) != hashTable.end()) {
-        if (hashTemp.find(tempKey) == hashTemp.end())
-          hashTemp[tempKey] = hashTable[tempKey];
+        hashTemp[tempKey] = hashTable[tempKey];
         hashTable.erase(tempKey);
       }
     }
@@ -66,26 +50,22 @@ leftCycleLeftJoin_pair_CallByReference_ModifiedInt(
     for (auto x : rightTable) {
       tempKey = x.first;
       if (hashTable.find(tempKey) != hashTable.end()) {
-        if (hashTemp.find(tempKey) == hashTemp.end()) {
-          hashTemp[tempKey] = hashTable[tempKey];
-          hashTable.erase(tempKey);
-        }
+        hashTemp[tempKey] = hashTable[tempKey];
+        hashTable.erase(tempKey);
       }
     }
   }
-  return hashTemp;
+  std::cout << "Last line ----->  "
+            << float(clock() - begin_time) / CLOCKS_PER_SEC << endl;
 }
 
-unordered_map<int, list<pair<int, int>>>
-leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
+void leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
     list<pair<int, int>> leftTable, int leftIndex,
-    unordered_map<int, list<pair<int, int>>> &rightTabelHash, int rightIndex,
-    unordered_map<int, list<pair<int, int>>> hashTable, bool deleteflag) {
-
+    unordered_map<int, list<pair<int, int>>> &hashTemp,
+    unordered_map<int, list<pair<int, int>>> &rightTabelHash, int rightIndex) {
+  unordered_map<int, list<pair<int, int>>> hashTable;
   makeHashFunction_pair_CallByReference_ModifiedInt(leftTable, leftIndex,
                                                     hashTable);
-
-  unordered_map<int, list<pair<int, int>>> hashTemp;
 
   int tempKey;
   int flag = 0;
@@ -97,16 +77,15 @@ leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
            it2 != it->second.end(); it2++) {
         tempKey = it2->second;
         if (hashTable.find(tempKey) != hashTable.end()) {
-          if (hashTemp.find(tempKey) == hashTemp.end())
-            hashTemp[tempKey] = hashTable[tempKey];
+          hashTemp[tempKey] = hashTable[tempKey];
           hashTable.erase(tempKey);
-        } else if (hashTemp.find(tempKey) == hashTemp.end() && deleteflag) {
+        } else if (hashTemp.find(tempKey) == hashTemp.end()) {
           it2 = it->second.erase(it2);
           it2--;
         }
       }
 
-      if (it->second.empty() && deleteflag) {
+      if (it->second.empty()) {
         it = rightTabelHash.erase(it);
         flag = 1;
       }
@@ -122,8 +101,7 @@ leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
            it2 != it->second.end(); it2++) {
         tempKey = it2->first;
         if (hashTable.find(tempKey) != hashTable.end()) {
-          if (hashTemp.find(tempKey) == hashTemp.end())
-            hashTemp[tempKey] = hashTable[tempKey];
+          hashTemp[tempKey] = hashTable[tempKey];
           hashTable.erase(tempKey);
         } else if (hashTemp.find(tempKey) == hashTemp.end()) {
           it2 = it->second.erase(it2);
@@ -139,15 +117,14 @@ leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
       flag = 0;
     }
   }
-  return hashTemp;
 }
 
-list<pair<int, int>> rightCycleLeftJoin_pair_CallByReference_ModifiedInt(
-    unordered_map<int, list<pair<int, int>>> leftHashTable, int rightIndex,
-    unordered_map<int, list<pair<int, int>>> &rightHashTable) {
-  list<pair<int, int>> rightTable;
+void rightCycleLeftJoin_pair_CallByReference_ModifiedInt(
+    int rightIndex, unordered_map<int, list<pair<int, int>>> &rightHashTable,
+    unordered_map<int, list<pair<int, int>>> leftHashTable,
+    list<pair<int, int>> &rightTable) {
+
   int flag = 0;
-  unordered_map<int, list<pair<int, int>>> rightHashTableTemp;
 
   if (rightIndex) {
     for (unordered_map<int, list<pair<int, int>>>::iterator it =
@@ -193,13 +170,11 @@ list<pair<int, int>> rightCycleLeftJoin_pair_CallByReference_ModifiedInt(
       flag = 0;
     }
   }
-  return rightTable;
 }
 
 void rightCycleLeftJoin_pair_CallByReference_ModifiedInt_Table(
     unordered_map<int, list<pair<int, int>>> &leftHashTable,
     list<pair<int, int>> &rightTable, int rightIndex) {
-
   if (rightIndex) {
     for (auto x = rightTable.begin(); x != rightTable.end(); x++) {
       if (leftHashTable.find(x->second) == leftHashTable.end()) {
@@ -217,57 +192,51 @@ void rightCycleLeftJoin_pair_CallByReference_ModifiedInt_Table(
   }
 }
 
-void callPairImplementation_CallByReference_ModifiedInt(
-    list<pair<int, int>> followTabel, list<pair<int, int>> friendOfTabel,
-    list<pair<int, int>> likesTabel, list<pair<int, int>> reviewTabel) {
-
-  unordered_map<int, list<pair<int, int>>> followTabelHash;
-  unordered_map<int, list<pair<int, int>>> friendOfTabelHash;
-  unordered_map<int, list<pair<int, int>>> likesTabelHash;
-  unordered_map<int, list<pair<int, int>>> reviewTabelHash;
-
+void callPairImplementation_CallByReference_ModifiedIntAuto(
+    list<list<pair<int, int>>> tables) {
   const clock_t begin_time = clock();
-  // This will be called for 2
-  // This will be called only once.
-  friendOfTabelHash = leftCycleLeftJoin_pair_CallByReference_ModifiedInt(
-      friendOfTabel, 0, followTabel, 1, friendOfTabelHash);
-  cout << "friendOfTabelHash " << friendOfTabelHash.size() << endl;
-  cout << "friendOfTabel " << friendOfTabel.size() << endl;
-  cout << "likesTabel " << likesTabel.size() << endl;
-  bool flag = true;
-  // This will be called for 3 Tables
-  // This will be called for 2 time for 4 Tables. 3 times for 5 Tables.
-  likesTabelHash = leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
-      likesTabel, 0, friendOfTabelHash, 1, likesTabelHash, flag);
-  flag = true;
-  cout << "likesTabel " << likesTabel.size() << endl;
-  cout << "likesTabelHash " << likesTabelHash.size() << endl;
-  cout << "reviewTabel " << reviewTabel.size() << endl;
-  reviewTabelHash = leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
-      reviewTabel, 0, likesTabelHash, 1, reviewTabelHash, flag);
-  cout << "reviewTabel " << reviewTabel.size() << endl;
-  cout << "reviewTabelHash " << reviewTabelHash.size() << endl;
-  cout << "----------------------------------------------" << endl;
-  std::cout << float(clock() - begin_time) / CLOCKS_PER_SEC << endl;
 
-  const clock_t begin_time2 = clock();
-  cout << "likesTabel " << likesTabel.size() << endl;
-  cout << "likesTabelHash " << likesTabelHash.size() << endl;
-  cout << "friendOfTabelHash  " << friendOfTabelHash.size() << endl;
-// This will be called for 4 table once.
-// 5 Tables --> 2.
-// A B C D E
-// B,C C,D 
-  friendOfTabel = rightCycleLeftJoin_pair_CallByReference_ModifiedInt(
-      likesTabelHash, 1, friendOfTabelHash);
-  cout << "friendOfTabel " << friendOfTabel.size() << endl;
-  cout << "friendOfTabelHash " << friendOfTabelHash.size() << endl;
-// This to be called for 2
-// This will be called only once.
-  rightCycleLeftJoin_pair_CallByReference_ModifiedInt_Table(friendOfTabelHash,
-                                                            followTabel, 1);
-  cout << "follow Table " << followTabel.size() << endl;
+  list<unordered_map<int, list<pair<int, int>>>> hashs;
+  unordered_map<int, list<pair<int, int>>> empty;
+  for (int i = 0; i < tables.size() - 1; i++)
+    hashs.push_back(empty);
 
-  std::cout << float(clock() - begin_time2) / CLOCKS_PER_SEC << endl;
+  auto hash = hashs.begin();
+  auto table = tables.begin();
+
+  if (tables.size() >= 2)
+    leftCycleLeftJoin_pair_CallByReference_ModifiedInt(*(++table), 0, *table, 1,
+                                                       *hash);
+
+  std::cout << "Here----->  " << float(clock() - begin_time) / CLOCKS_PER_SEC
+            << endl;
+  if (tables.size() >= 3) {
+    for (table++; table != tables.end(); table++) {
+      leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
+          *table, 0, *(++hash), *hash, 1);
+    }
+  }
+  if (tables.size() >= 3) {
+    table--;
+    hash--;
+    table--;
+  }
+
+  table--;
+
+  std::cout << "Left----->  " << float(clock() - begin_time) / CLOCKS_PER_SEC
+            << endl;
+  if (tables.size() >= 4) {
+    for (int i = 3; i < tables.size(); i++) {
+      rightCycleLeftJoin_pair_CallByReference_ModifiedInt(1, *(--hash), *hash,
+                                                          *table);
+    }
+    --table;
+  }
+  cout << tables.size() << endl;
+  if (tables.size() >= 2)
+    rightCycleLeftJoin_pair_CallByReference_ModifiedInt_Table(*hash, *(table),
+                                                              1);
+  cout << (*table).size() << endl;
   std::cout << float(clock() - begin_time) / CLOCKS_PER_SEC << endl;
 }
