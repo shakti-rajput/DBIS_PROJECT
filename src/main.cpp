@@ -22,7 +22,7 @@ int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
   cout.tie(NULL);
-  string FILENAME = "watdiv10M.txt";
+  string FILENAME = "100k_Edited.txt";
   ifstream file(FILENAME);
 
   unordered_map<string, list<pair<string, string>>>
