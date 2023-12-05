@@ -66,7 +66,7 @@ void leftCycleLeftJoin_pair_CallByReference_ModifiedInt_hash(
   unordered_map<int, list<pair<int, int>>> hashTable;
   makeHashFunction_pair_CallByReference_ModifiedInt(leftTable, leftIndex,
                                                     hashTable);
-int nishtha;
+
   int tempKey;
   int flag = 0;
   if (rightIndex) {
